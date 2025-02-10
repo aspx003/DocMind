@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
-import { mvs } from "react-native-size-matters";
+import { mvs, ms, s, vs } from "react-native-size-matters";
 import OutlinedButton from "../Components/OutlinedButton";
 import { login } from "../Utils/ApiUtils/server.js";
 
@@ -62,17 +62,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   captionText: {
-    fontSize: 20,
+    fontSize: ms(20),
   },
   formContainer: {
-    marginVertical: 25,
+    marginVertical: vs(25),
   },
   textInput: {
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    borderWidth: 1,
-    borderRadius: 10,
-    width: 320,
-    marginVertical: 5,
+    paddingVertical: vs(10),
+    paddingHorizontal: s(5),
+    borderWidth: s(1),
+    borderRadius: ms(10),
+    width: s(300),
+    marginVertical: vs(5),
   },
 });

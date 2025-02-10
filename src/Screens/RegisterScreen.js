@@ -1,6 +1,6 @@
 import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
-import { mvs } from "react-native-size-matters";
+import { mvs, s, ms, vs } from "react-native-size-matters";
 import OutlinedButton from "../Components/OutlinedButton";
 import { register } from "../Utils/ApiUtils/server";
 export default function RegisterScreen({navigation}) {
@@ -69,25 +69,25 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   headerContainer: {
-    marginBottom: mvs(25),
+    marginBottom: vs(25),
   },
   headerContainerText: {
     fontSize: mvs(40),
     fontWeight: "bold",
   },
   captionText: {
-    fontSize: 20,
+    fontSize: ms(20),
 	textAlign: 'center'
   },
   formContainer: {
-    marginVertical: 25,
+    marginVertical: vs(25),
   },
   textInput: {
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    borderWidth: 1,
-    borderRadius: 10,
-    width: 320,
-    marginVertical: 5,
+    paddingVertical: vs(10),
+    paddingHorizontal: s(5),
+    borderWidth: ms(1),
+    borderRadius: ms(10),
+    width: s(300),
+    marginVertical: vs(5),
   },
 });
