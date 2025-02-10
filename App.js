@@ -4,29 +4,33 @@ import { NavigationContainer } from "@react-navigation/native";
 import { mvs, ms } from "react-native-size-matters";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import { Provider } from "react-redux";
+import { store } from "./src/store";
 
 // SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-//   const [loaded, error] = useFonts({
-//     "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
-//   });
+  //   const [loaded, error] = useFonts({
+  //     "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
+  //   });
 
-//   useEffect(() => {
-//     if (loaded || error) {
-//       SplashScreen.hideAsync();
-//     }
-//   }, [loaded, error]);
+  //   useEffect(() => {
+  //     if (loaded || error) {
+  //       SplashScreen.hideAsync();
+  //     }
+  //   }, [loaded, error]);
 
-//   if (!loaded && !error) {
-//     return null;
-//   }
+  //   if (!loaded && !error) {
+  //     return null;
+  //   }
 
   return (
     <View style={styles.container}>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </Provider>
     </View>
   );
 }
