@@ -1,11 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from "react-native";
+import RootNavigator from "./src/RootNavigator";
+import { NavigationContainer } from "@react-navigation/native";
+import { mvs, ms } from "react-native-size-matters";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+
+// SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+//   const [loaded, error] = useFonts({
+//     "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
+//   });
+
+//   useEffect(() => {
+//     if (loaded || error) {
+//       SplashScreen.hideAsync();
+//     }
+//   }, [loaded, error]);
+
+//   if (!loaded && !error) {
+//     return null;
+//   }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
     </View>
   );
 }
@@ -13,8 +34,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: ms(20),
+    paddingVertical: mvs(25),
   },
 });
