@@ -10,10 +10,10 @@ const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
   const { user } = useSelector((state) => state.auth);
-  
+
   let shownScreen = null;
 
-  if (user) {
+  if (user._j && isTokenExpired(user._j.access_token)) {
     shownScreen = <Stack.Screen name='MainApp' component={MainAppScreen} />;
   } else {
     shownScreen = (
@@ -27,7 +27,7 @@ export default function RootNavigator() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {shownScreen}
-    </Stack.Navigator>
+		{shownScreen}
+	</Stack.Navigator>
   );
 }
