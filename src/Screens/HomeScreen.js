@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import OutlinedButton from "../Components/OutlinedButton";
-import { mvs } from "react-native-size-matters";
+import { mvs, vs, s, ms } from "react-native-size-matters";
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -46,15 +46,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 15,
-    gap: 3,
+    marginVertical: vs(15),
+    gap: ms(3),
   },
   bar: {
     height: 0,
-    borderWidth: 1,
-    width: 35,
+    borderWidth: ms(1),
+    width: s(35),
   },
   orText: {
-    fontSize: 20,
+    fontSize: ms(20),
   },
 });
