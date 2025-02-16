@@ -4,24 +4,31 @@
   "main": "index.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/native": "^7.0.14",
     "@react-navigation/native-stack": "^7.2.0",
+    "@reduxjs/toolkit": "^2.5.1",
     "axios": "^1.7.9",
     "expo": "~52.0.31",
+    "expo-document-picker": "~13.0.3",
     "expo-font": "~13.0.3",
     "expo-splash-screen": "~0.29.21",
     "expo-status-bar": "~2.0.1",
+    "jwt-decode": "^4.0.0",
     "react": "18.3.1",
     "react-native": "0.76.7",
-    "react-native-size-matters": "^0.4.2"
+    "react-native-mmkv": "^3.2.0",
+    "react-native-size-matters": "^0.4.2",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+	"@react-native-community/cli": "latest"
   },
   "private": true
 }

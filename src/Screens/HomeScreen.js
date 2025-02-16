@@ -12,7 +12,7 @@ export default function HomeScreen({ navigation }) {
       <View style={styles.buttonContainer}>
         <OutlinedButton
           buttonName='Welcome Back'
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.replace("Login")}
         />
         <View style={styles.orTextContainer}>
           <View style={styles.bar}></View>
@@ -21,7 +21,7 @@ export default function HomeScreen({ navigation }) {
         </View>
         <OutlinedButton
           buttonName='Get Started'
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.replace("Register")}
         />
       </View>
     </View>

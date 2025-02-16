@@ -1,23 +1,108 @@
-import { Button, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { jwtDecode } from 'jwt-decode';
-import { checkTokenValidity } from '../Utils/general/tokenUtility';
-import { removeAuth } from '../state/authSlice';
+import React, { useContext, useEffect } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+} from "react-native";
+import { ms, vs } from "react-native-size-matters";
+import { useDispatch, useSelector } from "react-redux";
+import FileDisplay from "../Components/FileDisplay";
+import OutlinedButton from "../Components/OutlinedButton";
+import { getAllDocuments } from "../state/documentsSlice";
+import * as DocumentPicker from 'expo-document-picker';
+import { AuthContext } from "../Context/auth-context";
 
-export default function MainAppScreen({navigation}) {
+export default function MainAppScreen({}) {
+  const dispatch = useDispatch();
 
-	const dispatch = useDispatch();
+  const { loading, documents, error } = useSelector((state) => state.documents);
+  const authContext = useContext(AuthContext);
 
-	const user = useSelector(state => state.auth.user);
-	const decoded = jwtDecode(JSON.parse(user._j).access_token);
+  useEffect(() => {
+    const token = authContext.token;
+    dispatch(getAllDocuments({ token }));
+  }, []);
+
+  let screenContent;
+
+  if (loading) {
+    screenContent = (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size='large' />
+      </View>
+    );
+  }
+
+  if (error) {
+    screenContent = (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Some error happened!</Text>
+      </View>
+    );
+  }
+
+  if (documents && documents.length > 0) {
+    screenContent = (
+      <FlatList
+        data={documents}
+        renderItem={({ item }) => <FileDisplay item={item} />}
+        keyExtractor={(item) => item.id}
+      />
+    );
+  } else {
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>No documents added! Add one to get started!</Text>
+    </View>;
+  }
+
+  // TODO: Do file picking at last
+  const pickSomething = async () => {
+	try {
+		const docRes = await DocumentPicker.getDocumentAsync({
+			type: '*/*'
+		})
+		console.log(docRes);
+	} catch(error) {
+		console.log(error);
+	}
+  }
 
   return (
-	<View>
-	  <Text>{user.email}</Text>
-	  <Button title='Logout' onPress={() => dispatch(removeAuth())} />
-	</View>
-  )
+    <View style={styles.container}>
+      <View style={styles.filesContainer}>{screenContent}</View>
+      <View style={styles.mainContainer}>
+        <View style={styles.addButtonContainer}>
+          <OutlinedButton
+            buttonName='Add New Document'
+            onPress={pickSomething}
+          />
+        </View>
+      </View>
+    </View>
+  );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    flex: 1,
+  },
+  headerText: {
+    fontSize: ms(25),
+  },
+  header: {
+    paddingVertical: vs(20),
+  },
+  filesContainer: {
+    minHeight: vs(510),
+  },
+  addButtonContainer: {
+    alignItems: "center",
+  },
+  mainContainer: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+});

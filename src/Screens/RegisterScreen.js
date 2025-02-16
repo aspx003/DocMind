@@ -1,28 +1,29 @@
-import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { mvs, s, ms, vs } from "react-native-size-matters";
 import OutlinedButton from "../Components/OutlinedButton";
-import { register } from "../Utils/ApiUtils/server";
-export default function RegisterScreen({navigation}) {
-	const [email, setEmail] = useState("");
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-	const [data, setData] = useState(null);
- 
+import { registerUser } from "../Utils/general/authUtility";
 
-  const registerHandler = async () => {
-	const reponse = register(username, email, password);
-	
-	if(reponse) {
-		setData(reponse);
-	}
+export default function RegisterScreen({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-	if(data && data._j.detail) {
-		Alert.alert(data._j.detail + "!");
-	}else {
-		navigation.navigate('Login');
-	}
-  };
+  async function registerHandler() {
+    setIsAuthenticating(true);
+    try {
+      await registerUser(username, email, password);
+    } catch (error) {
+      Alert.alert("Register Failed!", "Pls try again or contact your dev!");
+    }
+    setIsAuthenticating(false);
+	navigation.replace('Login');
+  }
+
+  if(isAuthenticating) {
+	return <ActivityIndicator size="large" />
+  }
 
   return (
     <View style={styles.mainContainer}>
@@ -39,21 +40,21 @@ export default function RegisterScreen({navigation}) {
           style={styles.textInput}
           keyboardType='email-address'
           placeholder='Email'
-		  value={email}
-		  onChangeText={(text) => setEmail(text)}
+          value={email}
+          onChangeText={(text) => setEmail(text)}
         />
         <TextInput
-			style={styles.textInput}
-			placeholder='Name'
-			value={username}
-			onChangeText={(text) => setUsername(text)}
-		/>
+          style={styles.textInput}
+          placeholder='Name'
+          value={username}
+          onChangeText={(text) => setUsername(text)}
+        />
         <TextInput
           style={styles.textInput}
           secureTextEntry={true}
           placeholder='Password'
-		  value={password}
-		  onChangeText={(text) => setPassword(text)}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
         />
       </View>
       <OutlinedButton buttonName='Continue' onPress={registerHandler} />
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   },
   captionText: {
     fontSize: ms(20),
-	textAlign: 'center'
+    textAlign: "center",
   },
   formContainer: {
     marginVertical: vs(25),

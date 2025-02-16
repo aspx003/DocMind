@@ -1,6 +1,8 @@
-export const checkTokenValidity = (time) => {
-  const currentTimestamp = Math.floor(Date.now() / 1000);
+import { jwtDecode } from "jwt-decode";
 
-  // Check if expiry is in the future
+export const checkTokenValidity = (token) => {
+  const time = jwtDecode(token).exp;
+
+  const currentTimestamp = Math.floor(Date.now() / 1000);
   return time > currentTimestamp;
 };
