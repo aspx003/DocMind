@@ -1,8 +1,16 @@
-import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
-import { mvs, s, ms, vs } from "react-native-size-matters";
-import OutlinedButton from "../Components/OutlinedButton";
+import {
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import { ms, mvs, s, vs } from "react-native-size-matters";
+import Button from "../Components/Button";
 import { registerUser } from "../Utils/general/authUtility";
+import { colors } from "../constants/colors";
 
 export default function RegisterScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -11,6 +19,11 @@ export default function RegisterScreen({ navigation }) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   async function registerHandler() {
+
+	if(!email && !username && !password) {
+		return Alert.alert("Please fill all fields!", "Try Again!");
+	}
+
     setIsAuthenticating(true);
     try {
       await registerUser(username, email, password);
@@ -18,11 +31,11 @@ export default function RegisterScreen({ navigation }) {
       Alert.alert("Register Failed!", "Pls try again or contact your dev!");
     }
     setIsAuthenticating(false);
-	navigation.replace('Login');
+    navigation.replace("Login");
   }
 
-  if(isAuthenticating) {
-	return <ActivityIndicator size="large" />
+  if (isAuthenticating) {
+    return <ActivityIndicator size='large' />;
   }
 
   return (
@@ -42,12 +55,14 @@ export default function RegisterScreen({ navigation }) {
           placeholder='Email'
           value={email}
           onChangeText={(text) => setEmail(text)}
+		  placeholderTextColor={colors.placeholderTextColor}
         />
         <TextInput
           style={styles.textInput}
           placeholder='Name'
           value={username}
           onChangeText={(text) => setUsername(text)}
+		  placeholderTextColor={colors.placeholderTextColor}
         />
         <TextInput
           style={styles.textInput}
@@ -55,9 +70,12 @@ export default function RegisterScreen({ navigation }) {
           placeholder='Password'
           value={password}
           onChangeText={(text) => setPassword(text)}
+		  placeholderTextColor={colors.placeholderTextColor}
         />
       </View>
-      <OutlinedButton buttonName='Continue' onPress={registerHandler} />
+	  <View style={styles.buttonContainer}>
+      	<Button buttonName='Login' onPress={registerHandler} />
+	  </View>
     </View>
   );
 }
@@ -67,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+	paddingHorizontal: s(20),
   },
   headerContainer: {
     marginBottom: vs(25),
@@ -75,10 +93,12 @@ const styles = StyleSheet.create({
   headerContainerText: {
     fontSize: mvs(40),
     fontWeight: "bold",
+	color: colors.textColor,
   },
   captionText: {
     fontSize: ms(20),
     textAlign: "center",
+	color: colors.textColor,
   },
   formContainer: {
     marginVertical: vs(25),
@@ -86,9 +106,13 @@ const styles = StyleSheet.create({
   textInput: {
     paddingVertical: vs(10),
     paddingHorizontal: s(5),
-    borderWidth: ms(1),
-    borderRadius: ms(10),
+    borderBottomWidth: s(1),
     width: s(300),
     marginVertical: vs(5),
+    borderColor: colors.textColor,
+    color: colors.textColor,
+  },
+  buttonContainer: {
+	width: s(200),
   },
 });

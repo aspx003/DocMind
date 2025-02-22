@@ -1,18 +1,19 @@
+import React,{ useContext,useState } from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
+	ActivityIndicator,
+	Alert,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
 } from "react-native";
-import React, { useContext, useState } from "react";
-import { mvs, ms, s, vs } from "react-native-size-matters";
-import OutlinedButton from "../Components/OutlinedButton";
+import { ms,mvs,s,vs } from "react-native-size-matters";
+import Button from "../Components/Button";
 import { AuthContext } from "../Context/auth-context";
 import { loginUser } from "../Utils/general/authUtility";
+import { colors } from '../constants/colors';
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -44,7 +45,7 @@ export default function LoginScreen() {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerContainer}>
-        <Text style={styles.headerContainerText}>Welcome Back</Text>
+        <Text style={styles.headerContainerText}>Login</Text>
       </View>
       <View>
         <Text style={styles.captionText}>Good to have you back!</Text>
@@ -56,6 +57,7 @@ export default function LoginScreen() {
           placeholder='Email'
           value={email}
           onChangeText={(text) => setEmail(text)}
+		  placeholderTextColor={colors.placeholderTextColor}
         />
         <TextInput
           style={styles.textInput}
@@ -63,9 +65,12 @@ export default function LoginScreen() {
           placeholder='Password'
           value={password}
           onChangeText={(text) => setPassword(text)}
+		  placeholderTextColor={colors.placeholderTextColor}
         />
       </View>
-      <OutlinedButton buttonName='Continue' onPress={signInHandler} />
+	  <View style={styles.buttonContainer}>
+      <Button buttonName='Continue' onPress={signInHandler} />
+	  </View>
     </View>
   );
 }
@@ -74,8 +79,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
+    alignItems: "center"
   },
   headerContainer: {
     marginBottom: mvs(25),
@@ -83,9 +87,11 @@ const styles = StyleSheet.create({
   headerContainerText: {
     fontSize: mvs(40),
     fontWeight: "bold",
+	color: colors.textColor
   },
   captionText: {
     fontSize: ms(20),
+	color: colors.textColor
   },
   formContainer: {
     marginVertical: vs(25),
@@ -93,9 +99,13 @@ const styles = StyleSheet.create({
   textInput: {
     paddingVertical: vs(10),
     paddingHorizontal: s(5),
-    borderWidth: s(1),
-    borderRadius: ms(10),
+    borderBottomWidth: s(1),
     width: s(300),
     marginVertical: vs(5),
+	borderColor: colors.textColor,
+	color: colors.textColor
+  },
+  buttonContainer: {
+	width: s(200),
   },
 });

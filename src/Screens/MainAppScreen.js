@@ -6,12 +6,12 @@ import {
   View,
   ActivityIndicator,
 } from "react-native";
-import { ms, vs } from "react-native-size-matters";
+import { ms, vs, s } from "react-native-size-matters";
 import { useDispatch, useSelector } from "react-redux";
 import FileDisplay from "../Components/FileDisplay";
-import OutlinedButton from "../Components/OutlinedButton";
+import Button from "../Components/Button";
 import { getAllDocuments } from "../state/documentsSlice";
-import * as DocumentPicker from 'expo-document-picker';
+import * as DocumentPicker from "expo-document-picker";
 import { AuthContext } from "../Context/auth-context";
 
 export default function MainAppScreen({}) {
@@ -59,25 +59,24 @@ export default function MainAppScreen({}) {
 
   // TODO: Do file picking at last
   const pickSomething = async () => {
-	try {
-		const docRes = await DocumentPicker.getDocumentAsync({
-			type: '*/*'
-		})
-		console.log(docRes);
-	} catch(error) {
-		console.log(error);
-	}
-  }
+    try {
+      const docRes = await DocumentPicker.getDocumentAsync({
+        type: "*/*",
+      });
+      console.log(docRes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.filesContainer}>{screenContent}</View>
       <View style={styles.mainContainer}>
         <View style={styles.addButtonContainer}>
-          <OutlinedButton
-            buttonName='Add New Document'
-            onPress={pickSomething}
-          />
+          <View style={{width: s(300)}}>
+            <Button buttonName='Add New Document' onPress={pickSomething} />
+          </View>
         </View>
       </View>
     </View>
@@ -86,7 +85,6 @@ export default function MainAppScreen({}) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
     flex: 1,
   },
   headerText: {
@@ -99,10 +97,12 @@ const styles = StyleSheet.create({
     minHeight: vs(510),
   },
   addButtonContainer: {
+    justifyContent: "center",
     alignItems: "center",
   },
   mainContainer: {
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
+	marginBottom: vs(20),
   },
 });
