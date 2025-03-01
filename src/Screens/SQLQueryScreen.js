@@ -5,12 +5,16 @@ import {
   FlatList,
   TextInput,
   ActivityIndicator,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SQLQueryChatComponent from "../Components/SQLQueryChatComponent";
 import { colors } from "../constants/colors";
 import { vs, s, ms } from "react-native-size-matters";
 import IconButton from "../Components/IconButton";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllSQLQueryChats, postSQLQueryChat } from "../state/sqlQuerySlice";
+import { AuthContext } from "../Context/auth-context";
 
 const data = [
   {
@@ -233,9 +237,24 @@ const data = [
 
 export default function SQLQueryScreen() {
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((state) => state.sqlQuery);
+  const authContext = useContext(AuthContext);
 
-  const sendMessageHandler = () => {};
+  useEffect(() => {
+    dispatch(getAllSQLQueryChats({ token: authContext.token }));
+  }, []);
+
+  const sendMessageHandler = () => {
+    if (message.length <= 0) {
+      Alert.alert("Can send blank messages!");
+      return;
+    }
+
+    dispatch(
+      postSQLQueryChat({ natural_query: message, token: authContext.token })
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -249,7 +268,7 @@ export default function SQLQueryScreen() {
           value={message}
           onChangeText={(text) => setMessage(text)}
           style={styles.input}
-		  placeholder="Askr your query"
+          placeholder='Ask your query'
         />
         <View style={styles.iconButton}>
           {loading ? (
