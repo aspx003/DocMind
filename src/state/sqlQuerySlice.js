@@ -18,7 +18,6 @@ export const getAllSQLQueryChats = createAsyncThunk('getAllSQLQueryChats/sqlQuer
 });
 
 export const postSQLQueryChat = createAsyncThunk('postSQLQueryChat/sqlQuery', async ({natural_query, token}) => {
-	console.log(natural_query);
 	try {
 		const response = await axios.post(API_URL + "/query/", 
 			{
@@ -29,7 +28,6 @@ export const postSQLQueryChat = createAsyncThunk('postSQLQueryChat/sqlQuery', as
 				Authorization: 'Bearer ' + token
 			}
 		})
-		console.log(response.data);
 		return response.data;
 	} catch (error) {
 		console.log(error);

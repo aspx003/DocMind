@@ -49,6 +49,7 @@ export default function ChatScreen({ navigation, route }) {
           value={message}
           onChangeText={(text) => setMessage(text)}
           style={styles.input}
+		  placeholder="Ask me a question!"
         />
         <View style={styles.iconButton}>
           {loading ? (
