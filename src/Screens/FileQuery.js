@@ -14,7 +14,7 @@ import { getAllDocuments } from "../state/documentsSlice";
 import * as DocumentPicker from "expo-document-picker";
 import { AuthContext } from "../Context/auth-context";
 
-export default function MainAppScreen({}) {
+export default function FileQuery({}) {
   const dispatch = useDispatch();
 
   const { loading, documents, error } = useSelector((state) => state.documents);
@@ -103,6 +103,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     justifyContent: "flex-end",
-	marginBottom: vs(20),
+	marginBottom: vs(50),
   },
 });

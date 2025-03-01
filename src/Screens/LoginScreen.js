@@ -10,7 +10,7 @@ import {
 import { ms,mvs,s,vs } from "react-native-size-matters";
 import Button from "../Components/Button";
 import { AuthContext } from "../Context/auth-context";
-import { loginUser } from "../Utils/general/authUtility";
+import { loginUser, fetchUserProfile } from "../Utils/general/authUtility";
 import { colors } from '../constants/colors';
 
 export default function LoginScreen({navigation}) {
@@ -30,7 +30,8 @@ export default function LoginScreen({navigation}) {
 
     try {
       const token = await loginUser(email, password);
-      authContext.authenticate(token);
+	  const username = await fetchUserProfile(token);
+	  authContext.authenticate(token, username);
     } catch (error) {
       Alert.alert("Login Failed!", "Pls try again or contact your dev!");
     }

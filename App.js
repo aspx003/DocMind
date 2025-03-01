@@ -9,10 +9,12 @@ import AuthContextProvider, { AuthContext } from "./src/Context/auth-context";
 import ChatScreen from "./src/Screens/ChatScreen";
 import HomeScreen from "./src/Screens/HomeScreen";
 import LoginScreen from "./src/Screens/LoginScreen";
-import MainAppScreen from "./src/Screens/MainAppScreen";
 import RegisterScreen from "./src/Screens/RegisterScreen";
 import { store } from "./src/store";
 import { s } from "react-native-size-matters";
+import FileQuery from "./src/Screens/FileQuery";
+import FunctionalitySelectionScreen from "./src/Screens/FunctionalitySelectionScreen";
+import SQLQueryScreen from "./src/Screens/SQLQueryScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,20 +35,24 @@ function AutheticatedStack() {
       }}>
       <Stack.Screen
         options={{
-          headerTitle: "All Files",
-          headerRight: () => {
-            return (
-              <IconButton
-                name={"logout"}
-                size={24}
-                color={colors.textColor}
-                onPress={authContext.logout}
-              />
-            );
-          },
+          headerShown: false
         }}
-        name='MainApp'
-        component={MainAppScreen}
+        name='FunctionalitySelection'
+        component={FunctionalitySelectionScreen}
+      />
+      <Stack.Screen
+        options={{
+          headerTitle: "All Files",
+        }}
+        name='FileQuery'
+        component={FileQuery}
+      />
+      <Stack.Screen
+        options={{
+          headerTitle: "Query SQL",
+        }}
+        name='SQLQuery'
+        component={SQLQueryScreen}
       />
       <Stack.Screen name='Chat' component={ChatScreen} />
     </Stack.Navigator>
