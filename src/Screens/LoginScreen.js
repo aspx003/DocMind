@@ -1,19 +1,19 @@
-import React,{ useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import {
-	ActivityIndicator,
-	Alert,
-	StyleSheet,
-	Text,
-	TextInput,
-	View,
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
-import { ms,mvs,s,vs } from "react-native-size-matters";
+import { ms, mvs, s, vs } from "react-native-size-matters";
 import Button from "../Components/Button";
 import { AuthContext } from "../Context/auth-context";
 import { loginUser, fetchUserProfile } from "../Utils/general/authUtility";
-import { colors } from '../constants/colors';
+import { colors } from "../constants/colors";
 
-export default function LoginScreen({navigation}) {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -21,17 +21,16 @@ export default function LoginScreen({navigation}) {
   const authContext = useContext(AuthContext);
 
   async function signInHandler() {
-
-	if(!email && !password) {
-		return Alert.alert("Please fill all fields!", "Try Again!");
-	}
+    if (!email && !password) {
+      return Alert.alert("Please fill all fields!", "Try Again!");
+    }
 
     setIsAuthenticating(true);
 
     try {
       const token = await loginUser(email, password);
-	  const username = await fetchUserProfile(token);
-	  authContext.authenticate(token, username);
+      const username = await fetchUserProfile(token);
+      authContext.authenticate(token, username);
     } catch (error) {
       Alert.alert("Login Failed!", "Pls try again or contact your dev!");
     }
@@ -40,7 +39,11 @@ export default function LoginScreen({navigation}) {
   }
 
   if (isAuthenticating) {
-    return <ActivityIndicator size='large' />;
+    return (
+      <View style={styles.activityIndicator}>
+        <ActivityIndicator size='large' color={colors.buttonColor} />;
+      </View>
+    );
   }
 
   return (
@@ -58,7 +61,7 @@ export default function LoginScreen({navigation}) {
           placeholder='Email'
           value={email}
           onChangeText={(text) => setEmail(text)}
-		  placeholderTextColor={colors.placeholderTextColor}
+          placeholderTextColor={colors.placeholderTextColor}
         />
         <TextInput
           style={styles.textInput}
@@ -66,21 +69,26 @@ export default function LoginScreen({navigation}) {
           placeholder='Password'
           value={password}
           onChangeText={(text) => setPassword(text)}
-		  placeholderTextColor={colors.placeholderTextColor}
+          placeholderTextColor={colors.placeholderTextColor}
         />
       </View>
-	  <View style={styles.buttonContainer}>
-      <Button buttonName='Continue' onPress={signInHandler} />
-	  </View>
+      <View style={styles.buttonContainer}>
+        <Button buttonName='Continue' onPress={signInHandler} />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   mainContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   headerContainer: {
     marginBottom: mvs(25),
@@ -88,11 +96,11 @@ const styles = StyleSheet.create({
   headerContainerText: {
     fontSize: mvs(40),
     fontWeight: "bold",
-	color: colors.textColor
+    color: colors.textColor,
   },
   captionText: {
     fontSize: ms(20),
-	color: colors.textColor
+    color: colors.textColor,
   },
   formContainer: {
     marginVertical: vs(25),
@@ -103,10 +111,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: s(1),
     width: s(300),
     marginVertical: vs(5),
-	borderColor: colors.textColor,
-	color: colors.textColor
+    borderColor: colors.textColor,
+    color: colors.textColor,
   },
   buttonContainer: {
-	width: s(200),
+    width: s(200),
   },
 });

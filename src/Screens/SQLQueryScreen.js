@@ -1,20 +1,19 @@
+import React,{ useContext,useEffect,useState } from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TextInput,
-  ActivityIndicator,
-  Alert,
+	ActivityIndicator,
+	Alert,
+	FlatList,
+	StyleSheet,
+	TextInput,
+	View
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import { ms,s,vs } from "react-native-size-matters";
+import { useDispatch,useSelector } from "react-redux";
+import IconButton from "../Components/IconButton";
 import SQLQueryChatComponent from "../Components/SQLQueryChatComponent";
 import { colors } from "../constants/colors";
-import { vs, s, ms } from "react-native-size-matters";
-import IconButton from "../Components/IconButton";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllSQLQueryChats, postSQLQueryChat } from "../state/sqlQuerySlice";
 import { AuthContext } from "../Context/auth-context";
+import { getAllSQLQueryChats,postSQLQueryChat } from "../state/sqlQuerySlice";
 
 export default function SQLQueryScreen() {
   const [message, setMessage] = useState("");
