@@ -5,12 +5,13 @@ import {
   Text,
   View,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { ms, vs, s } from "react-native-size-matters";
 import { useDispatch, useSelector } from "react-redux";
 import FileDisplay from "../Components/FileDisplay";
 import Button from "../Components/Button";
-import { getAllDocuments } from "../state/documentsSlice";
+import { getAllDocuments, uploadDocument } from "../state/documentsSlice";
 import * as DocumentPicker from "expo-document-picker";
 import { AuthContext } from "../Context/auth-context";
 
@@ -58,12 +59,37 @@ export default function FileQuery({}) {
   }
 
   // TODO: Do file picking at last
-  const pickSomething = async () => {
+  const pickFile = async () => {
     try {
       const docRes = await DocumentPicker.getDocumentAsync({
         type: "*/*",
       });
-      console.log(docRes);
+
+      Alert.alert(
+        "Confirmation",
+        `Do you want to upload ${docRes.assets[0].name}?`,
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            onPress: () => {
+              const token = authContext.token;
+              const formData = new FormData();
+              formData.append("file", {
+                uri: docRes.assets[0].uri,
+                name: docRes.assets[0].name,
+                type: docRes.assets[0].mimeType,
+              });
+              dispatch(uploadDocument({ token, formData }));
+              dispatch(getAllDocuments({ token }));
+            },
+            style: "default",
+          },
+        ]
+      );
     } catch (error) {
       console.log(error);
     }
@@ -74,8 +100,8 @@ export default function FileQuery({}) {
       <View style={styles.filesContainer}>{screenContent}</View>
       <View style={styles.mainContainer}>
         <View style={styles.addButtonContainer}>
-          <View style={{width: s(300)}}>
-            <Button buttonName='Add New Document' onPress={pickSomething} />
+          <View style={{ width: s(300) }}>
+            <Button buttonName='Add New Document' onPress={pickFile} />
           </View>
         </View>
       </View>
@@ -95,14 +121,16 @@ const styles = StyleSheet.create({
   },
   filesContainer: {
     minHeight: vs(510),
+    marginBottom: vs(40),
   },
   addButtonContainer: {
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: vs(40),
   },
   mainContainer: {
     flex: 1,
     justifyContent: "flex-end",
-	marginBottom: vs(50),
+    marginBottom: vs(50),
   },
 });

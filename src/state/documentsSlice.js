@@ -19,6 +19,19 @@ export const getAllDocuments = createAsyncThunk('documents/getAllDocuments', asy
 	}
 });
 
+export const uploadDocument = createAsyncThunk('documents/uploadDocument', async ({token, formData}) => {
+	try {
+		await axios.post(API_URL + '/documents/upload', formData, {
+			headers: {
+				Authorization: 'Bearer ' + token,
+				'Content-Type': 'multipart/form-data'
+			}
+		})
+	} catch(error) {
+		console.log(error);
+	}
+});
+
 const initialState = {
 	loading: false,
 	error: null,
@@ -47,6 +60,19 @@ const documentsSlice = createSlice({
 				}
 			})
 			.addCase(getAllDocuments.rejected, (state, action) => {
+				state.loading = false;
+				state.error = action.payload;
+				state.documents = null;
+			})
+			.addCase(uploadDocument.pending, (state) => {
+				state.loading = true;
+				state.error = false;
+			})
+			.addCase(uploadDocument.fulfilled, (state, action) => {
+				state.loading = false;
+				state.error = false;
+			})
+			.addCase(uploadDocument.rejected, (state, action) => {
 				state.loading = false;
 				state.error = action.payload;
 				state.documents = null;
