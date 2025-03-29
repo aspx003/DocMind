@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Keyboard,
   StyleSheet,
@@ -31,9 +32,19 @@ export default function ChatScreen({ navigation, route }) {
   const { allChats, loading, error } = useSelector((state) => state.chats);
 
   function sendMessageHandler() {
+
+	if(message.length === 0) {
+		Alert.alert("Please enter a message!")
+		return;
+	}
+
     Keyboard.dismiss();
     dispatch(sendMessage({ documentId, message, token: authContext.token }));
     setMessage("");
+  }
+
+  if(error) {
+	Alert.alert("We're facing some error currently. Please try again later!");
   }
 
   return (

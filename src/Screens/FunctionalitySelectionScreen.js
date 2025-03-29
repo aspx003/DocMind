@@ -56,18 +56,14 @@ export default function FunctionalitySelectionScreen() {
         <Text style={styles.hiText}> {username},</Text>
       </View>
       <Text style={styles.hiTextCaption}>Where should we start today?</Text>
-      <Animated.View style={[styles.docContainer, animatedStyleFromLeft]}>
         <Pressable style={styles.navigator} onPress={documentNaviagtor}>
           <Text style={styles.navigatorText}>Take me to my documents!</Text>
         </Pressable>
-      </Animated.View>
-      <Animated.View style={[styles.sqlContainer, animatedStyleFromRight]}>
         <Pressable style={styles.navigator} onPress={sqlNavigator}>
           <Text style={styles.navigatorText}>
             I would like some help with SQL!
           </Text>
         </Pressable>
-      </Animated.View>
     </View>
   );
 }
@@ -107,8 +103,8 @@ const styles = StyleSheet.create({
     padding: s(10),
     borderRadius: s(10),
     marginVertical: vs(10),
-    width: s(200),
     elevation: 5,
+	alignItems: "center",
   },
   navigatorText: {
     fontSize: s(17),

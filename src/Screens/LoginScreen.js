@@ -13,7 +13,7 @@ import { AuthContext } from "../Context/auth-context";
 import { loginUser, fetchUserProfile } from "../Utils/general/authUtility";
 import { colors } from "../constants/colors";
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAuthenticating, setIsAuthenticating] = useState(false);
@@ -41,7 +41,9 @@ export default function LoginScreen({ navigation }) {
   if (isAuthenticating) {
     return (
       <View style={styles.activityIndicator}>
-        <ActivityIndicator size='large' color={colors.buttonColor} />;
+		<Text>
+        	<ActivityIndicator size='large' color={colors.buttonColor} />;
+		</Text>
       </View>
     );
   }
