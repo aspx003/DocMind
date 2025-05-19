@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 18,
+	fontFamily: 'Lato'
   },
   btnOpacity: {
     opacity: 0.3,

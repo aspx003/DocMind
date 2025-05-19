@@ -1,12 +1,11 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useContext } from "react";
-import { s, vs } from "react-native-size-matters";
-import { sayHi } from "../Utils/general/hi";
+import { useNavigation } from "@react-navigation/native";
+import React,{ useContext } from "react";
+import { Pressable,StyleSheet,Text,View } from "react-native";
+import { s,vs } from "react-native-size-matters";
+import IconButton from "../Components/IconButton";
 import { colors } from "../constants/colors";
 import { AuthContext } from "../Context/auth-context";
-import IconButton from "../Components/IconButton";
-import { useNavigation } from "@react-navigation/native";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
+import { sayHi } from "../Utils/general/hi";
 
 export default function FunctionalitySelectionScreen() {
   const { helloText, language } = sayHi();
@@ -14,26 +13,6 @@ export default function FunctionalitySelectionScreen() {
 
   const authContext = useContext(AuthContext);
   const username = authContext.username;
-
-  const slideIn = useSharedValue(300);
-  const slideIn2 = useSharedValue(-300);
-
-  const animatedStyleFromRight = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: slideIn.value }],
-    };
-  });
-
-  const animatedStyleFromLeft = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: slideIn2.value }],
-    };
-  });
-
-  React.useEffect(() => {
-    slideIn.value = withTiming(0, { duration: 500 });
-	slideIn2.value = withTiming(0, { duration: 500 });
-  }, []);
 
   function documentNaviagtor() {
     naviagation.navigate("FileQuery");
@@ -43,6 +22,10 @@ export default function FunctionalitySelectionScreen() {
     naviagation.navigate("SQLQuery");
   }
 
+  function browseNavigator() {
+	naviagation.navigate("Browse");
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.logoutButton}>
@@ -50,7 +33,7 @@ export default function FunctionalitySelectionScreen() {
       </View>
       <View style={styles.textContainer}>
         <View>
-          <Text style={{ color: colors.buttonColor }}>{language}</Text>
+          <Text style={{ color: colors.buttonColor, fontFamily: 'Montserrat' }}>{language}</Text>
           <Text style={styles.helloText}>{helloText}</Text>
         </View>
         <Text style={styles.hiText}> {username},</Text>
@@ -62,6 +45,11 @@ export default function FunctionalitySelectionScreen() {
         <Pressable style={styles.navigator} onPress={sqlNavigator}>
           <Text style={styles.navigatorText}>
             I would like some help with SQL!
+          </Text>
+        </Pressable>
+        <Pressable style={styles.navigator} onPress={browseNavigator}>
+          <Text style={styles.navigatorText}>
+            I would like to browse the internet!
           </Text>
         </Pressable>
     </View>
@@ -81,16 +69,17 @@ const styles = StyleSheet.create({
   hiText: {
     fontSize: s(33),
     color: colors.buttonColor,
-    fontWeight: "bold",
+	fontFamily: 'Montserrat'
   },
   hiTextCaption: {
     fontSize: s(27),
     color: colors.textColor,
+	fontFamily: 'Lato'
   },
   helloText: {
     fontSize: s(33),
     color: colors.buttonColor,
-    fontWeight: "bold",
+    fontFamily: 'Montserrat'
   },
   docContainer: {
     alignItems: "flex-start",
@@ -108,6 +97,7 @@ const styles = StyleSheet.create({
   },
   navigatorText: {
     fontSize: s(17),
+	fontFamily: 'Lato'
   },
   logoutButton: {
     position: "absolute",

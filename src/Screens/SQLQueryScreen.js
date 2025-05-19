@@ -26,7 +26,7 @@ export default function SQLQueryScreen() {
   }, []);
 
   const sendMessageHandler = () => {
-    if (message.length <= 0) {
+    if (!message) {
       Alert.alert("Can't send blank messages!");
       return;
     }
@@ -73,7 +73,7 @@ export default function SQLQueryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: vs(45),
+    marginBottom: vs(3),
   },
   chatInputContainer: {
     height: vs(40),

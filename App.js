@@ -1,26 +1,28 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import * as Font from "expo-font";
+import { useContext,useEffect,useState } from "react";
+import { StyleSheet,Text,View } from "react-native";
+import { s } from "react-native-size-matters";
 import { Provider } from "react-redux";
-import IconButton from "./src/Components/IconButton";
 import { colors } from "./src/constants/colors";
-import AuthContextProvider, { AuthContext } from "./src/Context/auth-context";
+import AuthContextProvider,{ AuthContext } from "./src/Context/auth-context";
+import BrowseScreen from "./src/Screens/BrowseScreen";
 import ChatScreen from "./src/Screens/ChatScreen";
+import FileQuery from "./src/Screens/FileQuery";
+import FunctionalitySelectionScreen from "./src/Screens/FunctionalitySelectionScreen";
 import HomeScreen from "./src/Screens/HomeScreen";
 import LoginScreen from "./src/Screens/LoginScreen";
 import RegisterScreen from "./src/Screens/RegisterScreen";
-import { store } from "./src/store";
-import { s } from "react-native-size-matters";
-import FileQuery from "./src/Screens/FileQuery";
-import FunctionalitySelectionScreen from "./src/Screens/FunctionalitySelectionScreen";
 import SQLQueryScreen from "./src/Screens/SQLQueryScreen";
+import { store } from "./src/store";
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
 
 function AutheticatedStack() {
-  const authContext = useContext(AuthContext);
-
   return (
     <Stack.Navigator
       screenOptions={{
@@ -55,6 +57,7 @@ function AutheticatedStack() {
         component={SQLQueryScreen}
       />
       <Stack.Screen name='Chat' component={ChatScreen} />
+	  <Stack.Screen name='Browse' component={BrowseScreen} />
     </Stack.Navigator>
   );
 }
@@ -87,19 +90,20 @@ function Navigation() {
 }
 
 export default function App() {
-  //   const [loaded, error] = useFonts({
-  //     "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
-  //   });
+	const [loaded, error] = Font.useFonts({
+		'Montserrat': require('./assets/fonts/montserrat.ttf'),
+		'Lato': require('./assets/fonts/lato.ttf'),
+	})
 
-  //   useEffect(() => {
-  //     if (loaded || error) {
-  //       SplashScreen.hideAsync();
-  //     }
-  //   }, [loaded, error]);
+	useEffect(() => {
+		if (loaded || error) {
+			SplashScreen.hideAsync();
+		}
+	}, [loaded, error])
 
-  //   if (!loaded && !error) {
-  //     return null;
-  //   }
+	if(!loaded && !error) {
+		return null;
+	}
 
   return (
     <View style={styles.container}>

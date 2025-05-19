@@ -97,12 +97,13 @@ const styles = StyleSheet.create({
   },
   headerContainerText: {
     fontSize: mvs(40),
-    fontWeight: "bold",
     color: colors.textColor,
+	fontFamily: 'Montserrat'
   },
   captionText: {
     fontSize: ms(20),
     color: colors.textColor,
+	fontFamily: 'Lato'
   },
   formContainer: {
     marginVertical: vs(25),

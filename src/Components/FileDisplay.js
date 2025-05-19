@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: colors.textColor,
+	fontFamily: 'Lato',
   },
   imageStyle: {
     height: vs(28),

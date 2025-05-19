@@ -54,10 +54,12 @@ const styles = StyleSheet.create({
   headerContainerText: {
     fontSize: mvs(40),
     color: colors.textColor,
+	fontFamily: 'Montserrat'
   },
   headerCaption: {
     fontSize: mvs(15),
     color: colors.textColor,
+	fontFamily: 'Lato'
   },
   orTextContainer: {
     flexDirection: "row",

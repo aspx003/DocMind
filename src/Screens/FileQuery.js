@@ -112,6 +112,7 @@ export default function FileQuery({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+	marginBottom: vs(50)
   },
   headerText: {
     fontSize: ms(25),
@@ -120,13 +121,11 @@ const styles = StyleSheet.create({
     paddingVertical: vs(20),
   },
   filesContainer: {
-    minHeight: vs(510),
-    marginBottom: vs(40),
+    marginBottom: vs(10),
   },
   addButtonContainer: {
     justifyContent: "center",
-    alignItems: "center",
-    marginBottom: vs(40),
+    alignItems: "center"
   },
   mainContainer: {
     flex: 1,

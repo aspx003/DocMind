@@ -25,7 +25,8 @@
     "react-native-mmkv": "^3.2.0",
     "react-native-reanimated": "~3.16.1",
     "react-native-size-matters": "^0.4.2",
-    "react-redux": "^9.2.0"
+    "react-redux": "^9.2.0",
+    "expo-clipboard": "~7.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
