@@ -5,7 +5,7 @@ import * as Clipboard from "expo-clipboard";
 import { ms, s, vs } from "react-native-size-matters";
 import { colors } from "../constants/colors";
 
-export default function BrowseScreen() {
+export default function BrowseScreen({ navigation }) {
   const [url, setUrl] = useState("");
 
   const getUrlFromClipboard = async () => {
@@ -18,7 +18,9 @@ export default function BrowseScreen() {
   };
 
   const sendUrlAndNavigateToChat = () => {
-    console.log(url);
+	if (url) {
+	  navigation.navigate("Chat", { url });
+	}
   };
 
   return (

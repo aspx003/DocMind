@@ -17,6 +17,7 @@ import RegisterScreen from "./src/Screens/RegisterScreen";
 import SQLQueryScreen from "./src/Screens/SQLQueryScreen";
 import { store } from "./src/store";
 import * as SplashScreen from 'expo-splash-screen';
+import { checkTokenValidity } from "./src/Utils/general/tokenUtility";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -80,11 +81,12 @@ function AuthStack() {
 
 function Navigation() {
   const authContext = useContext(AuthContext);
+  const authStatus = authContext.isAuthenticated && checkTokenValidity(authContext.token);
 
   return (
     <NavigationContainer>
-      {!authContext.isAuthenticated && <AuthStack />}
-      {authContext.isAuthenticated && <AutheticatedStack />}
+      {!authStatus && <AuthStack />}
+      {authStatus && <AutheticatedStack />}
     </NavigationContainer>
   );
 }

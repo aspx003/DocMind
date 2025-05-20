@@ -15,6 +15,7 @@ import { AuthContext } from "../Context/auth-context";
 import { sendMessage } from "../state/chatSlice";
 import { colors } from "../constants/colors";
 import { vs, s, ms } from "react-native-size-matters";
+import { isTokenExpired } from "../Utils/general/tokenUtility";
 
 export default function ChatScreen({ navigation, route }) {
   const flatlistRef = useRef(null);
@@ -24,27 +25,26 @@ export default function ChatScreen({ navigation, route }) {
   const [message, setMessage] = useState("");
 
   useLayoutEffect(() => {
-	navigation.setOptions({
-	  headerTitle: 'Chatting with ' + fileName,
-	});
-  })
+    navigation.setOptions({
+      headerTitle: "Chatting with " + fileName,
+    });
+  });
 
   const { allChats, loading, error } = useSelector((state) => state.chats);
 
   function sendMessageHandler() {
-
-	if(message.length === 0) {
-		Alert.alert("Please enter a message!")
-		return;
-	}
+    if (message.length === 0) {
+      Alert.alert("Please enter a message!");
+      return;
+    }
 
     Keyboard.dismiss();
     dispatch(sendMessage({ documentId, message, token: authContext.token }));
     setMessage("");
   }
 
-  if(error) {
-	Alert.alert("We're facing some error currently. Please try again later!");
+  if (error) {
+    Alert.alert("We're facing some error currently. Please try again later!");
   }
 
   return (
@@ -60,7 +60,7 @@ export default function ChatScreen({ navigation, route }) {
           value={message}
           onChangeText={(text) => setMessage(text)}
           style={styles.input}
-		  placeholder="Ask me a question!"
+          placeholder='Ask me a question!'
         />
         <View style={styles.iconButton}>
           {loading ? (
@@ -81,7 +81,7 @@ export default function ChatScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-	marginBottom: vs(5)
+    marginBottom: vs(5),
   },
   chatInputContainer: {
     height: vs(40),
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "88%",
-	paddingLeft: s(10),
+    paddingLeft: s(10),
   },
   iconButton: {
     padding: s(5),

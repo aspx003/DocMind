@@ -1,7 +1,20 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  ToastAndroid,
+} from "react-native";
 import React from "react";
 import { colors } from "../constants/colors";
 import { vs, s, ms } from "react-native-size-matters";
+import * as Clipboard from "expo-clipboard";
+
+// Long press on chat to copy response
+const copyToClipboard = (text) => {
+  Clipboard.setStringAsync(text);
+  ToastAndroid.show("Response copied to clipboard", ToastAndroid.SHORT);
+};
 
 export default function ChatComponent({ chat }) {
   return (
@@ -12,9 +25,11 @@ export default function ChatComponent({ chat }) {
         </View>
       </View>
       <View style={styles.responseContainer}>
-        <View style={styles.responseBox}>
+        <Pressable
+          onLongPress={() => copyToClipboard(chat.response)}
+          style={styles.responseBox}>
           <Text style={styles.textStyles}>{chat.response}</Text>
-        </View>
+        </Pressable>
       </View>
     </View>
   );

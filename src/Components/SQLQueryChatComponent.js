@@ -1,8 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { vs, s, ms } from "react-native-size-matters";
+import * as Clipboard from "expo-clipboard";
+import { Pressable,StyleSheet,Text,ToastAndroid,View } from "react-native";
+import { ms,s,vs } from "react-native-size-matters";
 import { colors } from "../constants/colors";
 import TableComponent from "./TableComponent";
+
+const copyToClipboard = (data) => {
+  const copyString = data.response + "\n\n" + data.sql_query + "\n\n";
+  Clipboard.setStringAsync(copyString);
+  ToastAndroid.show("Response copied to clipboard", ToastAndroid.SHORT);
+};
 
 export default function SQLQueryChatComponent({ data }) {
   return (
@@ -12,7 +18,9 @@ export default function SQLQueryChatComponent({ data }) {
           <Text style={{ color: colors.textColor }}>{data.natural_query}</Text>
         </View>
       </View>
-      <View style={styles.responseContainer}>
+      <Pressable
+        onLongPress={() => copyToClipboard(data)}
+        style={styles.responseContainer}>
         <View style={styles.responseBox}>
           <Text style={styles.headerText}>Response: </Text>
           <Text style={styles.responseText}>{data.response}</Text>
@@ -25,7 +33,7 @@ export default function SQLQueryChatComponent({ data }) {
             <TableComponent data={data.results} />
           </View>
         </View>
-      </View>
+      </Pressable>
     </View>
   );
 }
@@ -73,6 +81,6 @@ const styles = StyleSheet.create({
   },
   results: {
     // flex: 1,
-	marginTop: vs(2)
+    marginTop: vs(2),
   },
 });
