@@ -58,7 +58,6 @@ export default function FileQuery({}) {
     </View>;
   }
 
-  // TODO: Do file picking at last
   const pickFile = async () => {
     try {
       const docRes = await DocumentPicker.getDocumentAsync({
@@ -112,24 +111,20 @@ export default function FileQuery({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-	marginBottom: vs(50)
+    marginBottom: vs(40),
   },
   headerText: {
     fontSize: ms(25),
-  },
-  header: {
-    paddingVertical: vs(20),
   },
   filesContainer: {
     marginBottom: vs(10),
   },
   addButtonContainer: {
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   mainContainer: {
     flex: 1,
     justifyContent: "flex-end",
-    marginBottom: vs(50),
   },
 });

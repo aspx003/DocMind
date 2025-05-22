@@ -35,16 +35,18 @@ export default function BrowseScreen({ navigation }) {
         placeholder='Enter URL here!'
       />
       <View style={styles.buttonContainer}>
-        <View style={{ width: s(220) }}>
+        <View style={{ width: s(170) }}>
           <Button
             onPress={getUrlFromClipboard}
-            buttonName='Paste from Clipboard & GO'
+            buttonName='Paste from Clipboard'
           />
         </View>
-        <View style={{ width: s(60) }}>
+        <View style={{ width: s(100) }}>
           <Button onPress={sendUrlAndNavigateToChat} buttonName='GO' />
         </View>
       </View>
+
+	  <Text style={{color: colors.textColor, marginTop: vs(10)}}>PS: Chat won't be stored after session ends</Text>
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import * as Clipboard from "expo-clipboard";
-import { Pressable,StyleSheet,Text,ToastAndroid,View } from "react-native";
-import { ms,s,vs } from "react-native-size-matters";
+import { Pressable, StyleSheet, Text, ToastAndroid, View } from "react-native";
+import { ms, s, vs } from "react-native-size-matters";
 import { colors } from "../constants/colors";
 import TableComponent from "./TableComponent";
 
@@ -18,22 +18,22 @@ export default function SQLQueryChatComponent({ data }) {
           <Text style={{ color: colors.textColor }}>{data.natural_query}</Text>
         </View>
       </View>
-      <Pressable
-        onLongPress={() => copyToClipboard(data)}
-        style={styles.responseContainer}>
+      <View style={styles.responseContainer}>
         <View style={styles.responseBox}>
-          <Text style={styles.headerText}>Response: </Text>
-          <Text style={styles.responseText}>{data.response}</Text>
-          <Text style={styles.headerText}>SQL Query: </Text>
-          <Text style={[styles.responseText, styles.queryFont]}>
-            {data.sql_query}
-          </Text>
+          <Pressable onLongPress={() => copyToClipboard(data)}>
+            <Text style={styles.headerText}>Response: </Text>
+            <Text style={styles.responseText}>{data.response}</Text>
+            <Text style={styles.headerText}>SQL Query: </Text>
+            <Text style={[styles.responseText, styles.queryFont]}>
+              {data.sql_query}
+            </Text>
+          </Pressable>
           <Text style={styles.headerText}>Results Table: </Text>
           <View style={styles.results}>
             <TableComponent data={data.results} />
           </View>
         </View>
-      </Pressable>
+      </View>
     </View>
   );
 }

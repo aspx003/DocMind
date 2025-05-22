@@ -1,7 +1,6 @@
 import { createAsyncThunk,createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
-const API_URL = "http://10.0.2.2:8000";
+import { API_URL } from "../Utils/general/authUtility";
 
 export const getAllSQLQueryChats = createAsyncThunk('getAllSQLQueryChats/sqlQuery', async ({token}) => {
 	try {

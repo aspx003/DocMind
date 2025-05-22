@@ -1,14 +1,11 @@
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { mvs, s, vs } from "react-native-size-matters";
 import Button from "../Components/Button";
-import { mvs, vs, s, ms } from "react-native-size-matters";
-import { StatusBar } from "expo-status-bar";
-import {colors} from '../constants/colors';
+import { colors } from "../constants/colors";
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.mainContainer}>
-      <StatusBar style='light' />
       <ImageBackground
         source={require("../../assets/splash-image.png")}
         resizeMode='cover'
@@ -16,20 +13,21 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.headerContainer}>
           <Text style={styles.headerContainerText}>Doc Mind</Text>
           <Text style={styles.headerCaption}>
-		  An Intelligent Multi-Modal Framework for Context-Aware Document Analysis and Natural Language Database Orchestration
+            An Intelligent Multi-Modal Framework for Context-Aware Document
+            Analysis and Natural Language Database Orchestration
           </Text>
         </View>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
             <Button
               buttonName='Welcome Back'
-              onPress={() => navigation.replace("Login")}
+              onPress={() => navigation.navigate("Login")}
             />
           </View>
           <View style={styles.button}>
             <Button
               buttonName='Get Started'
-              onPress={() => navigation.replace("Register")}
+              onPress={() => navigation.navigate("Register")}
             />
           </View>
         </View>
@@ -47,29 +45,22 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-end",
     paddingHorizontal: s(20),
+    marginBottom: vs(5),
   },
   headerContainer: {
-    marginBottom: mvs(25),
+    marginBottom: mvs(10),
   },
   headerContainerText: {
     fontSize: mvs(40),
     color: colors.textColor,
-	fontFamily: 'Montserrat'
+    fontFamily: "Montserrat",
   },
   headerCaption: {
     fontSize: mvs(15),
     color: colors.textColor,
-	fontFamily: 'Lato'
-  },
-  orTextContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: vs(15),
-    gap: ms(3),
+    fontFamily: "Lato",
   },
   buttonContainer: {
-    marginBottom: mvs(20),
     flexDirection: "row",
     justifyContent: "space-between",
   },
