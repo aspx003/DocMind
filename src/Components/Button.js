@@ -1,14 +1,19 @@
-import { StyleSheet, Text, Pressable } from "react-native";
-import React from "react";
+import { StyleSheet, Text, Pressable, ActivityIndicator } from "react-native";
 import { ms, mvs } from "react-native-size-matters";
-import {colors} from '../constants/colors';
+import { colors } from "../constants/colors";
 
-export default function Button({ onPress, buttonName }) {
+export default function Button({ onPress, buttonName, disabled, loading }) {
   return (
     <Pressable
-      style={({ pressed }) => [styles.btn, pressed && styles.btnOpacity]}
+      disabled={disabled}
+      style={({ pressed }) => [
+        styles.btn,
+        pressed && styles.btnOpacity,
+        disabled && styles.disabled,
+      ]}
       onPress={onPress}>
-      <Text style={styles.btnText}>{buttonName}</Text>
+      {loading && <ActivityIndicator size='small' color={colors.white} />}
+      {!loading && <Text style={styles.btnText}>{buttonName}</Text>}
     </Pressable>
   );
 }
@@ -18,14 +23,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: mvs(41),
-	backgroundColor: colors.buttonColor,
+    backgroundColor: colors.buttonColor,
     height: ms(41),
   },
   btnText: {
     fontSize: 18,
-	fontFamily: 'Lato'
+    fontFamily: "Lato",
   },
   btnOpacity: {
+    opacity: 0.3,
+  },
+  disabled: {
     opacity: 0.3,
   },
 });

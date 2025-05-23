@@ -58,7 +58,11 @@ function AutheticatedStack() {
         component={SQLQueryScreen}
       />
       <Stack.Screen name='Chat' component={ChatScreen} />
-      <Stack.Screen name='Browse' component={BrowseScreen} />
+      <Stack.Screen
+        name='Browse'
+        component={BrowseScreen}
+        options={{ headerTitle: "Chat With Websites" }}
+      />
     </Stack.Navigator>
   );
 }
@@ -128,6 +132,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingBottom: navbarHeight,
-    paddingTop: StatusBar.currentHeight
+    paddingTop: StatusBar.currentHeight,
   },
 });
