@@ -23,11 +23,10 @@
     "jwt-decode": "^4.0.0",
     "react": "19.0.0",
     "react-native": "0.79.2",
-    "react-native-mmkv": "^3.2.0",
+    "react-native-markdown-display": "^7.0.2",
     "react-native-reanimated": "~3.17.4",
     "react-native-size-matters": "^0.4.2",
-    "react-redux": "^9.2.0",
-    "expo-checkbox": "~4.1.4"
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

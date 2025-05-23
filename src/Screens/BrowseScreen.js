@@ -1,3 +1,5 @@
+import * as Clipboard from "expo-clipboard";
+import { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -7,36 +9,44 @@ import {
   ToastAndroid,
   View,
 } from "react-native";
-import { useEffect, useState, useContext } from "react";
-import Button from "../Components/Button";
-import * as Clipboard from "expo-clipboard";
 import { ms, s, vs } from "react-native-size-matters";
+import { useDispatch, useSelector } from "react-redux";
+import Button from "../Components/Button";
 import { colors } from "../constants/colors";
-import Checkbox from "expo-checkbox";
-import { useSelector, useDispatch } from "react-redux";
-import { addNewUrl, getAllUrls } from "../state/browseSlice";
 import { AuthContext } from "../Context/auth-context";
+import { addNewUrl, getAllUrls, deleteUrl } from "../state/browseSlice";
+import IconButton from "../Components/IconButton";
 
-const UrlCheckbox = ({ item, onCheckChange }) => {
-  const [isChecked, setIsChecked] = useState(false);
-
-  const changeCheck = (value) => {
-    setIsChecked(value);
-    onCheckChange(item, value);
+const UrlCheckbox = ({ item }) => {
+  const dispatch = useDispatch();
+  const authContext = useContext(AuthContext);
+  const handleDeleteUrl = () => {
+    dispatch(
+      deleteUrl({
+        token: authContext.token,
+        url: item.url,
+      })
+    );
+    dispatch(getAllUrls({ token: authContext.token }));
   };
+
   return (
     <View style={styles.urlBox}>
-      <Checkbox value={isChecked} onValueChange={changeCheck} />
       <Text style={styles.text}>{item.title}</Text>
+      <IconButton
+        color={"red"}
+        name={"delete"}
+        size={25}
+        onPress={handleDeleteUrl}
+      />
     </View>
   );
 };
 
 export default function BrowseScreen({ navigation }) {
   const [url, setUrl] = useState("");
-  const localUrls = new Set();
 
-  const { urls, loading, error } = useSelector((state) => state.browse);
+  const { urls, loading } = useSelector((state) => state.browse);
   const dispatch = useDispatch();
   const authContext = useContext(AuthContext);
 
@@ -57,22 +67,11 @@ export default function BrowseScreen({ navigation }) {
     } else {
       ToastAndroid.show("Please enter a link", ToastAndroid.SHORT);
     }
-	setUrl("");
+    setUrl("");
   };
 
-  const onCheckChange = (item, value) => {
-    if (value) {
-      localUrls.add({
-        hash: item.url_hash,
-        url: item.url,
-      });
-    } else {
-      localUrls.forEach((url) => {
-        if (url.hash === item.url_hash) {
-          localUrls.delete(url);
-        }
-      });
-    }
+  const handleChat = () => {
+    navigation.navigate("BrowseChat");
   };
 
   return (
@@ -117,16 +116,14 @@ export default function BrowseScreen({ navigation }) {
             <FlatList
               keyExtractor={(item) => item.url_hash}
               data={urls}
-              renderItem={({ item }) => (
-                <UrlCheckbox item={item} onCheckChange={onCheckChange} />
-              )}
+              renderItem={({ item }) => <UrlCheckbox item={item} />}
             />
           )}
         </View>
       </View>
 
       <View style={styles.chatButtonContainer}>
-        <Button onPress={() => console.log(localUrls)} buttonName='Chat' />
+        <Button onPress={handleChat} buttonName='Chat' />
       </View>
     </View>
   );
@@ -170,7 +167,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#0B2B32",
     padding: s(10),
     borderRadius: ms(10),
-    // height: "100%",
   },
   chatButtonContainer: {
     marginVertical: vs(10),
@@ -178,6 +174,7 @@ const styles = StyleSheet.create({
   urlBox: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     gap: s(9),
     marginVertical: vs(5),
   },

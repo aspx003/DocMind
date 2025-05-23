@@ -1,12 +1,14 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as Font from "expo-font";
-import { useContext, useEffect, useState } from "react";
-import { StyleSheet, Dimensions, StatusBar, View } from "react-native";
-import { mvs, s } from "react-native-size-matters";
+import * as SplashScreen from "expo-splash-screen";
+import { useContext, useEffect } from "react";
+import { Dimensions, StatusBar, StyleSheet, View } from "react-native";
+import { s } from "react-native-size-matters";
 import { Provider } from "react-redux";
 import { colors } from "./src/constants/colors";
 import AuthContextProvider, { AuthContext } from "./src/Context/auth-context";
+import BrowseChatScreen from "./src/Screens/BrowseChatScreen";
 import BrowseScreen from "./src/Screens/BrowseScreen";
 import ChatScreen from "./src/Screens/ChatScreen";
 import FileQuery from "./src/Screens/FileQuery";
@@ -16,7 +18,6 @@ import LoginScreen from "./src/Screens/LoginScreen";
 import RegisterScreen from "./src/Screens/RegisterScreen";
 import SQLQueryScreen from "./src/Screens/SQLQueryScreen";
 import { store } from "./src/store";
-import * as SplashScreen from "expo-splash-screen";
 import { checkTokenValidity } from "./src/Utils/general/tokenUtility";
 
 SplashScreen.preventAutoHideAsync();
@@ -61,6 +62,11 @@ function AutheticatedStack() {
       <Stack.Screen
         name='Browse'
         component={BrowseScreen}
+        options={{ headerTitle: "Chat With Websites" }}
+      />
+      <Stack.Screen
+        name='BrowseChat'
+        component={BrowseChatScreen}
         options={{ headerTitle: "Chat With Websites" }}
       />
     </Stack.Navigator>
