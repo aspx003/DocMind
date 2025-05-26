@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const API_URL = "http://10.0.2.2:8000";
+// export const API_URL = "http://10.0.2.2:8000"; // for emulator
+export const API_URL = "http://192.168.99.96:8000"; // for device
 
 async function login(email, password) {
   try {

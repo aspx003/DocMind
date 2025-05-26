@@ -2,12 +2,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useContext, useEffect } from "react";
-import { Dimensions, StatusBar, StyleSheet, View } from "react-native";
+import { useContext,useEffect } from "react";
+import { StatusBar,StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { s } from "react-native-size-matters";
 import { Provider } from "react-redux";
 import { colors } from "./src/constants/colors";
-import AuthContextProvider, { AuthContext } from "./src/Context/auth-context";
+import AuthContextProvider,{ AuthContext } from "./src/Context/auth-context";
 import BrowseChatScreen from "./src/Screens/BrowseChatScreen";
 import BrowseScreen from "./src/Screens/BrowseScreen";
 import ChatScreen from "./src/Screens/ChatScreen";
@@ -28,13 +29,14 @@ function AutheticatedStack() {
   return (
     <Stack.Navigator
       screenOptions={{
+        // headerShown: false,
         headerStyle: {
           backgroundColor: colors.backgroundColor,
         },
         headerTintColor: colors.textColor,
         contentStyle: {
           backgroundColor: colors.backgroundColor,
-          paddingHorizontal: s(20),
+          paddingHorizontal: s(10),
         },
       }}>
       <Stack.Screen
@@ -119,25 +121,19 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar style='light' />
+    <SafeAreaView style={styles.container}>
       <Provider store={store}>
         <AuthContextProvider>
+          <StatusBar style='light' />
           <Navigation />
         </AuthContextProvider>
       </Provider>
-    </View>
+    </SafeAreaView>
   );
 }
-
-const screenHeight = Dimensions.get("screen").height;
-const windowHeight = Dimensions.get("window").height;
-const navbarHeight = screenHeight - windowHeight + StatusBar.currentHeight;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: navbarHeight,
-    paddingTop: StatusBar.currentHeight,
   },
 });

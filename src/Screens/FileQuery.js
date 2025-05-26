@@ -111,7 +111,7 @@ export default function FileQuery({}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: vs(40),
+	marginBottom: vs(5),
   },
   headerText: {
     fontSize: ms(25),

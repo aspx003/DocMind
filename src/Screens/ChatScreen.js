@@ -81,7 +81,7 @@ export default function ChatScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: vs(5),
+    // marginBottom: vs(5),
   },
   chatInputContainer: {
     height: vs(40),
