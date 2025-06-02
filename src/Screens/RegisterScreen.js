@@ -40,7 +40,7 @@ export default function RegisterScreen({ navigation }) {
 	}
 
 	return (
-		<KeyboardAvoidingView style={styles.mainContainer} behavior="padding">
+		<KeyboardAvoidingView style={styles.mainContainer} behavior="height">
 			<View style={styles.headerContainer}>
 				<Text style={styles.headerContainerText}>Get Started</Text>
 			</View>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		paddingHorizontal: s(20),
+		marginHorizontal: s(20),
 	},
 	headerContainer: {
 		marginBottom: vs(25),
@@ -114,6 +114,6 @@ const styles = StyleSheet.create({
 		color: colors.textColor,
 	},
 	buttonContainer: {
-		width: s(200),
+		width: '100%',
 	},
 });

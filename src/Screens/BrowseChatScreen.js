@@ -45,9 +45,9 @@ export default function BrowseChatScreen() {
       )}
       <FlatList
         data={chats}
-        initialNumToRender={5} // Only render a few items initially
-        maxToRenderPerBatch={5} // Number of items rendered per batch
-        windowSize={10} // Number of items kept in memory
+        initialNumToRender={5}
+        maxToRenderPerBatch={5}
+        windowSize={10}
         updateCellsBatchingPeriod={50}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <BrowseChatComponent data={item} />}
@@ -58,6 +58,7 @@ export default function BrowseChatScreen() {
           onChangeText={(text) => setMessage(text)}
           style={styles.input}
           placeholder='Ask me a question!'
+		  placeholderTextColor={"black"}
         />
         <View style={styles.iconButton}>
           {loading ? (

@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     justifyContent: "center",
     alignItems: "center",
+	marginBottom: vs(5)
   },
   mainContainer: {
     flex: 1,

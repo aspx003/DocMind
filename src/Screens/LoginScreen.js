@@ -1,5 +1,5 @@
 import React,{ useContext,useState } from "react";
-import { ActivityIndicator,Alert,KeyboardAvoidingView,StyleSheet,Text,TextInput,View,ScrollView } from "react-native";
+import { ActivityIndicator,Alert,KeyboardAvoidingView,StyleSheet,Text,TextInput,View } from "react-native";
 import { ms,mvs,s,vs } from "react-native-size-matters";
 import Button from "../Components/Button";
 import { AuthContext } from "../Context/auth-context";
@@ -42,7 +42,7 @@ export default function LoginScreen() {
 	}
 
 	return (
-		<KeyboardAvoidingView style={styles.mainContainer} behavior="padding">
+		<KeyboardAvoidingView style={styles.mainContainer}>
 			<View style={styles.headerContainer}>
 				<Text style={styles.headerContainerText}>Login</Text>
 			</View>
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		marginHorizontal: s(20)
 	},
 	headerContainer: {
 		marginBottom: mvs(25),
@@ -97,6 +98,6 @@ const styles = StyleSheet.create({
 		color: colors.textColor,
 	},
 	buttonContainer: {
-		width: s(200),
+		width: '100%',
 	},
 });
