@@ -54,6 +54,7 @@ export default function SQLQueryScreen() {
           onChangeText={(text) => setMessage(text)}
           style={styles.input}
           placeholder='Ask your query'
+		  placeholderTextColor='black'
         />
         <View style={styles.iconButton}>
           {loading ? (

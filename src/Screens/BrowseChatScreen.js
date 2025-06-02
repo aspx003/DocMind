@@ -21,7 +21,7 @@ export default function BrowseChatScreen() {
 
   useEffect(() => {
     if (chats.length > 0 && flatlistRef.current) {
-      flatlistRef.current.scrollToEnd({ animated: true });
+      flatlistRef.current.scrollToEnd({ animated: false });
     }
   }, [chats]);
 
@@ -34,13 +34,13 @@ export default function BrowseChatScreen() {
 
     setTimeout(() => {
       if (flatlistRef.current) {
-        flatlistRef.current.scrollToEnd({ animated: true });
+        flatlistRef.current.scrollToEnd({ animated: false });
       }
     }, 300);
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+    <KeyboardAvoidingView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           {loading && <ActivityIndicator size={"large"} color={colors.buttonColor} />}

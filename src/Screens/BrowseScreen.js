@@ -16,6 +16,7 @@ import { colors } from "../constants/colors";
 import { AuthContext } from "../Context/auth-context";
 import { addNewUrl, getAllUrls, deleteUrl } from "../state/browseSlice";
 import IconButton from "../Components/IconButton";
+import { checkTokenValidity } from "../Utils/general/tokenUtility";
 
 const UrlCheckbox = ({ item }) => {
   const dispatch = useDispatch();
@@ -50,6 +51,10 @@ export default function BrowseScreen({ navigation }) {
   const dispatch = useDispatch();
   const authContext = useContext(AuthContext);
 
+  if(!checkTokenValidity(authContext.token)) {
+	authContext.logout();
+  }
+
   useEffect(() => {
     dispatch(getAllUrls({ token: authContext.token }));
   }, []);
@@ -81,6 +86,7 @@ export default function BrowseScreen({ navigation }) {
         value={url}
         onChangeText={(text) => setUrl(text)}
         placeholder='Enter / Paste a Link'
+		placeholderTextColor='black'
       />
       <View style={styles.buttonContainer}>
         <View style={{ width: "48%" }}>
