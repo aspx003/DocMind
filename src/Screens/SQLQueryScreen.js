@@ -5,7 +5,8 @@ import {
 	FlatList,
 	StyleSheet,
 	TextInput,
-	View
+	View,
+	KeyboardAvoidingView
 } from "react-native";
 import { ms,s,vs } from "react-native-size-matters";
 import { useDispatch,useSelector } from "react-redux";
@@ -41,7 +42,7 @@ export default function SQLQueryScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <FlatList
         data={data}
         renderItem={({ item }) => <SQLQueryChatComponent data={item} />}
@@ -66,7 +67,7 @@ export default function SQLQueryScreen() {
           )}
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -1,25 +1,17 @@
-import { useContext,useEffect,useState } from "react";
-import {
-	ActivityIndicator,
-	FlatList,
-	Keyboard,
-	KeyboardAvoidingView,
-	Platform,
-	StyleSheet,
-	TextInput,
-	View,
-} from "react-native";
-import { ms,s,vs } from "react-native-size-matters";
-import { useDispatch,useSelector } from "react-redux";
+import { useContext, useEffect, useRef, useState } from "react";
+import { ActivityIndicator, FlatList, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TextInput, TouchableWithoutFeedback, View, KeyboardDismissHandler } from "react-native";
+import { ms, s, vs } from "react-native-size-matters";
+import { useDispatch, useSelector } from "react-redux";
 import BrowseChatComponent from "../Components/BrowseChatComponent";
 import IconButton from "../Components/IconButton";
 import { colors } from "../constants/colors";
 import { AuthContext } from "../Context/auth-context";
-import { getAllChats,postChat } from "../state/browseSlice";
+import { getAllChats, postChat } from "../state/browseSlice";
 
 export default function BrowseChatScreen() {
-  const [message, setMessage] = useState("");
   const dispatch = useDispatch();
+  const flatlistRef = useRef(null);
+  const [message, setMessage] = useState("");
   const { loading, chats } = useSelector((state) => state.browse);
   const token = useContext(AuthContext).token;
 
@@ -27,73 +19,70 @@ export default function BrowseChatScreen() {
     dispatch(getAllChats({ token }));
   }, []);
 
-  const sendMessageHandler = () => {
-    if (message) {
-      dispatch(postChat({ token, message }));
+  useEffect(() => {
+    if (chats.length > 0 && flatlistRef.current) {
+      flatlistRef.current.scrollToEnd({ animated: true });
     }
+  }, [chats]);
+
+  const sendMessageHandler = () => {
+    if (!message.trim()) return;
+
+    dispatch(postChat({ token, message }));
     Keyboard.dismiss();
     setMessage("");
+
+    setTimeout(() => {
+      if (flatlistRef.current) {
+        flatlistRef.current.scrollToEnd({ animated: true });
+      }
+    }, 300);
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 80}>
-      {loading && (
-        <ActivityIndicator size={"large"} color={colors.buttonColor} />
-      )}
-      <FlatList
-        data={chats}
-        initialNumToRender={5}
-        maxToRenderPerBatch={5}
-        windowSize={10}
-        updateCellsBatchingPeriod={50}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <BrowseChatComponent data={item} />}
-      />
-      <View style={styles.chatInputContainer}>
-        <TextInput
-          value={message}
-          onChangeText={(text) => setMessage(text)}
-          style={styles.input}
-          placeholder='Ask me a question!'
-		  placeholderTextColor={"black"}
-        />
-        <View style={styles.iconButton}>
-          {loading ? (
-            <ActivityIndicator size='large' color='#0000ff' />
-          ) : (
-            <IconButton
-              onPress={sendMessageHandler}
-              name={"rocket-launch"}
-              size={30}
-            />
-          )}
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          {loading && <ActivityIndicator size={"large"} color={colors.buttonColor} />}
+
+          <FlatList ref={flatlistRef} data={chats} keyExtractor={(item) => item.id} renderItem={({ item }) => <BrowseChatComponent data={item} />} contentContainerStyle={styles.flatListContent} />
+
+          <View style={styles.chatInputContainer}>
+            <TextInput value={message} onChangeText={setMessage} style={styles.input} placeholder='Ask me a question!' placeholderTextColor='black' multiline />
+            <View style={styles.iconButton}>{loading ? <ActivityIndicator size='small' color='#0000ff' /> : <IconButton onPress={sendMessageHandler} name={"rocket-launch"} size={24} />}</View>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  flatListContent: {
+    padding: s(10),
+    paddingBottom: vs(80), // make room for input
+  },
   chatInputContainer: {
-    height: vs(40),
-    marginVertical: vs(10),
-    backgroundColor: colors.buttonColor,
-    padding: s(5),
-    borderRadius: ms(35),
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    backgroundColor: colors.buttonColor,
+    margin: s(10),
+    paddingHorizontal: s(10),
+    paddingVertical: s(5),
+    borderRadius: ms(35),
   },
   input: {
-    width: "88%",
+    flex: 1,
     paddingLeft: s(10),
+    maxHeight: vs(100),
   },
   iconButton: {
-    padding: s(5),
+    padding: s(6),
     backgroundColor: colors.sendIconBackgroundColor,
     borderRadius: ms(25),
+    marginLeft: s(5),
   },
 });
