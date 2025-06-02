@@ -7,6 +7,7 @@ const initialState = {
   urls: [],
   chats: [],
   loading: false,
+  chatResponseLoading: false,
   error: null,
 };
 
@@ -171,16 +172,16 @@ const browseSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(postChat.pending, (state) => {
-        state.loading = true;
+        state.chatResponseLoading = true;
         state.error = null;
       })
       .addCase(postChat.fulfilled, (state, action) => {
-        state.loading = false;
+        state.chatResponseLoading = false;
         state.error = null;
         state.chats.push(action.payload);
       })
       .addCase(postChat.rejected, (state, action) => {
-        state.loading = false;
+        state.chatResponseLoading = false;
         state.error = action.payload;
       });
   },

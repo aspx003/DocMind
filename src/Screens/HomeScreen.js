@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-end",
     paddingHorizontal: s(20),
-    marginBottom: vs(5),
+    marginBottom: vs(10),
   },
   headerContainer: {
     marginBottom: mvs(10),

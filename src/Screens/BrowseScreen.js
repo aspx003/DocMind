@@ -103,7 +103,6 @@ export default function BrowseScreen({ navigation }) {
           <Button
             onPress={handleAddNewUrl}
             buttonName='Add Link'
-            loading={loading}
             disabled={url.length === 0}
           />
         </View>
@@ -116,15 +115,15 @@ export default function BrowseScreen({ navigation }) {
           {loading && (
             <ActivityIndicator size='large' color={colors.buttonColor} />
           )}
-          {urls.length === 0 ? (
+          {!loading && (urls.length === 0 ? (
             <Text style={styles.text}>No links added Yet!</Text>
           ) : (
             <FlatList
-              keyExtractor={(item) => item.url_hash}
+              keyExtractor={item => item.url_hash}
               data={urls}
               renderItem={({ item }) => <UrlCheckbox item={item} />}
             />
-          )}
+          ))}
         </View>
       </View>
 

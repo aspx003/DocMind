@@ -12,7 +12,7 @@ export default function BrowseChatScreen() {
   const dispatch = useDispatch();
   const flatlistRef = useRef(null);
   const [message, setMessage] = useState("");
-  const { loading, chats } = useSelector((state) => state.browse);
+  const { loading, chats, chatResponseLoading } = useSelector((state) => state.browse);
   const token = useContext(AuthContext).token;
 
   useEffect(() => {
@@ -43,13 +43,17 @@ export default function BrowseChatScreen() {
     <KeyboardAvoidingView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          {loading && <ActivityIndicator size={"large"} color={colors.buttonColor} />}
+          {loading && (
+            <View style={styles.activityIndicator}>
+              <ActivityIndicator size={"large"} color={colors.buttonColor} />
+            </View>
+          )}
 
-          <FlatList ref={flatlistRef} data={chats} keyExtractor={(item) => item.id} renderItem={({ item }) => <BrowseChatComponent data={item} />} contentContainerStyle={styles.flatListContent} />
+          {!loading && <FlatList ref={flatlistRef} data={chats} keyExtractor={(item) => item.id} renderItem={({ item }) => <BrowseChatComponent data={item} />} contentContainerStyle={styles.flatListContent} />}
 
           <View style={styles.chatInputContainer}>
             <TextInput value={message} onChangeText={setMessage} style={styles.input} placeholder='Ask me a question!' placeholderTextColor='black' multiline />
-            <View style={styles.iconButton}>{loading ? <ActivityIndicator size='small' color='#0000ff' /> : <IconButton onPress={sendMessageHandler} name={"rocket-launch"} size={24} />}</View>
+            <View style={styles.iconButton}>{chatResponseLoading ? <ActivityIndicator size='small' color='#0000ff' /> : <IconButton onPress={sendMessageHandler} name={"rocket-launch"} size={24} />}</View>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -63,7 +67,6 @@ const styles = StyleSheet.create({
   },
   flatListContent: {
     padding: s(10),
-    paddingBottom: vs(80), // make room for input
   },
   chatInputContainer: {
     flexDirection: "row",
@@ -78,11 +81,17 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: s(10),
     maxHeight: vs(100),
+    color: "black",
   },
   iconButton: {
     padding: s(6),
     backgroundColor: colors.sendIconBackgroundColor,
     borderRadius: ms(25),
     marginLeft: s(5),
+  },
+  activityIndicator: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
