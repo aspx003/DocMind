@@ -1,14 +1,6 @@
 import * as Clipboard from "expo-clipboard";
 import { useContext, useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  TextInput,
-  ToastAndroid,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, ToastAndroid, View } from "react-native";
 import { ms, s, vs } from "react-native-size-matters";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Components/Button";
@@ -34,12 +26,7 @@ const UrlCheckbox = ({ item }) => {
   return (
     <View style={styles.urlBox}>
       <Text style={styles.text}>{item.title}</Text>
-      <IconButton
-        color={"red"}
-        name={"delete"}
-        size={25}
-        onPress={handleDeleteUrl}
-      />
+      <IconButton color={"red"} name={"delete"} size={25} onPress={handleDeleteUrl} />
     </View>
   );
 };
@@ -51,8 +38,8 @@ export default function BrowseScreen({ navigation }) {
   const dispatch = useDispatch();
   const authContext = useContext(AuthContext);
 
-  if(!checkTokenValidity(authContext.token)) {
-	authContext.logout();
+  if (!checkTokenValidity(authContext.token)) {
+    authContext.logout();
   }
 
   useEffect(() => {
@@ -81,30 +68,11 @@ export default function BrowseScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.textInput}
-        value={url}
-        onChangeText={(text) => setUrl(text)}
-        placeholder='Enter / Paste a Link'
-		placeholderTextColor='black'
-      />
+      <TextInput style={styles.textInput} value={url} onChangeText={(text) => setUrl(text)} placeholder='Enter / Paste a Link' placeholderTextColor='black' />
       <View style={styles.buttonContainer}>
+        <View style={{ width: "48%" }}>{url.length === 0 ? <Button onPress={getUrlFromClipboard} buttonName='Add from Clipboard' /> : <Button onPress={() => setUrl("")} buttonName='Clear' />}</View>
         <View style={{ width: "48%" }}>
-          {url.length === 0 ? (
-            <Button
-              onPress={getUrlFromClipboard}
-              buttonName='Add from Clipboard'
-            />
-          ) : (
-            <Button onPress={() => setUrl("")} buttonName='Clear' />
-          )}
-        </View>
-        <View style={{ width: "48%" }}>
-          <Button
-            onPress={handleAddNewUrl}
-            buttonName='Add Link'
-            disabled={url.length === 0}
-          />
+          <Button onPress={handleAddNewUrl} buttonName='Add Link' disabled={url.length === 0} />
         </View>
       </View>
 
@@ -112,18 +80,13 @@ export default function BrowseScreen({ navigation }) {
       <View style={styles.urlContainer}>
         <Text style={styles.headerText}>Added Links</Text>
         <View style={styles.urlDisplay}>
-          {loading && (
-            <ActivityIndicator size='large' color={colors.buttonColor} />
-          )}
-          {!loading && (urls.length === 0 ? (
-            <Text style={styles.text}>No links added Yet!</Text>
-          ) : (
-            <FlatList
-              keyExtractor={item => item.url_hash}
-              data={urls}
-              renderItem={({ item }) => <UrlCheckbox item={item} />}
-            />
-          ))}
+          {loading && <ActivityIndicator size='large' color={colors.buttonColor} />}
+          {!loading &&
+            (urls.length === 0 ? (
+              <Text style={styles.text}>No links added Yet!</Text>
+            ) : (
+              <FlatList keyExtractor={(item) => item.url} data={urls} renderItem={({ item }) => <UrlCheckbox item={item} />} />
+            ))}
         </View>
       </View>
 

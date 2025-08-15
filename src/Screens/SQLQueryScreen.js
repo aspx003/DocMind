@@ -6,7 +6,8 @@ import {
 	StyleSheet,
 	TextInput,
 	View,
-	KeyboardAvoidingView
+	KeyboardAvoidingView,
+	Keyboard
 } from "react-native";
 import { ms,s,vs } from "react-native-size-matters";
 import { useDispatch,useSelector } from "react-redux";
@@ -35,18 +36,22 @@ export default function SQLQueryScreen() {
     dispatch(
       postSQLQueryChat({ natural_query: message, token: authContext.token })
     );
+	setMessage('');
+	Keyboard.dismiss();
   };
 
   if(error) {
 	Alert.alert('Oops! Some error happened! Please try again');
   }
-
+  
   return (
     <KeyboardAvoidingView style={styles.container}>
       <FlatList
         data={data}
         renderItem={({ item }) => <SQLQueryChatComponent data={item} />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => {
+			return item.id + Math.random().toString();
+		}}
       />
       <View style={styles.chatInputContainer}>
         <TextInput

@@ -1,40 +1,38 @@
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
-import React from "react";
-import { s, ms, vs, mvs } from "react-native-size-matters";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import { useContext } from "react";
-import { AuthContext } from "../Context/auth-context";
-import { getAllChats } from "../state/chatSlice";
-import { colors } from "../constants/colors";
+import { StyleSheet, Text, View, Pressable, Image } from 'react-native';
+import { s, ms, vs } from 'react-native-size-matters';
+import { useNavigation } from '@react-navigation/native';
+import { colors } from '../constants/colors';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export default function FileDisplay({ item }) {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const authContext = useContext(AuthContext);
 
   function navigateToChat() {
-    dispatch(getAllChats({ documentId: item.id, token: authContext.token }));
-    navigation.navigate("Chat", {
+    navigation.navigate('Chat', {
       documentId: item.id,
-	  fileName: item.file_name,
+      fileName: item.file_name,
     });
   }
 
   let icon = null;
+  let color = null;
 
   switch (item.file_type) {
-    case "pdf":
-      icon = require("../../assets/file-type-icons/icon_pdf.png");
+    case 'pdf':
+      icon = 'file-pdf';
+      color = 'red';
       break;
-    case "csv":
-      icon = require("../../assets/file-type-icons/icon_csv.png");
+    case 'csv':
+      icon = 'file-csv';
+      color = 'blue';
       break;
-    case "txt":
-      icon = require("../../assets/file-type-icons/icon_txt.png");
+    case 'txt':
+      icon = 'file-text';
+      color = 'white';
       break;
-    case "xlsx":
-      icon = require("../../assets/file-type-icons/icon_xlsx.png");
+    case 'xlsx':
+      icon = 'file-excel';
+      color = 'green';
       break;
     default:
       break;
@@ -43,7 +41,7 @@ export default function FileDisplay({ item }) {
   return (
     <Pressable onPress={navigateToChat} style={styles.container}>
       <View style={styles.extContainer}>
-        <Image style={styles.imageStyle} source={icon} />
+        <FontAwesome6 name={icon} size={24} color={color} />
       </View>
       <View style={styles.fileNameContainer}>
         <Text style={styles.textStyle}>{item.file_name}</Text>
@@ -54,7 +52,7 @@ export default function FileDisplay({ item }) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderRadius: ms(10),
     minHeight: vs(50),
     marginBottom: vs(15),
@@ -63,18 +61,18 @@ const styles = StyleSheet.create({
   },
   extContainer: {
     width: s(50),
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   fileNameContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     flexShrink: 1,
     paddingHorizontal: s(10),
   },
   textStyle: {
     color: colors.textColor,
-	fontFamily: 'Lato',
+    fontFamily: 'Lato',
   },
   imageStyle: {
     height: vs(28),

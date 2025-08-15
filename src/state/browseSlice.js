@@ -140,7 +140,9 @@ const browseSlice = createSlice({
       .addCase(addNewUrl.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.urls.push(action.payload);
+		if (typeof action.payload !== "string") {	
+			state.urls.push(action.payload);
+		}
       })
       .addCase(addNewUrl.rejected, (state, action) => {
         state.loading = false;
@@ -165,6 +167,9 @@ const browseSlice = createSlice({
       })
       .addCase(deleteUrl.fulfilled, (state, action) => {
         state.loading = false;
+		const message = action.payload.message;
+		const url = message.split(" ")[1];
+		state.urls = state.urls.filter((item) => item.url !== url);
         state.error = null;
       })
       .addCase(deleteUrl.rejected, (state, action) => {
